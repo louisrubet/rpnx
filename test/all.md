@@ -15,7 +15,7 @@
 @include 050-real.md
 @include 051-real-representations.md
 @include 060-string.md
-@include 070-test.md
+@include 070-logical.md
 @include 080-store.md
 @include 090-program.md
 @include 100-complex.md

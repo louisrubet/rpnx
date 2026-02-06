@@ -1,6 +1,6 @@
 # rpnx [![License: LGPLv3](https://www.gnu.org/graphics/lgplv3-88x31.png)](https://www.gnu.org/licenses/lgpl-3.0.en.html)
 
-A CLI RPN calculator with arbitrary‑precision arithmetic.
+A CLI RPN rust calculator with arbitrary‑precision arithmetic.
 
 ## Install from source
 
@@ -13,7 +13,7 @@ cargo install --path .
 
 ## Features
 
-- **Arbitrary precision** via MPFR
+- **Arbitrary precision**
 - **Full arithmetic and scientific functions**
 - **Bitwise operations**
 - **Number bases** 2-62 (bin, hex, etc.)
@@ -113,6 +113,10 @@ rpnx> (3,4) abs
 rpnx> (1,0) (0,1) *
 1> (0,1)
 ```
+
+### More examples
+
+[test] directory contains human-readable markdown files, functionaly validating `rpnx`. They are full of examples.
 
 ## License
 

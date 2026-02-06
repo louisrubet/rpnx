@@ -49,7 +49,6 @@ nan
 
 ## prec
 
-```
 `default 56 prec pi`
 
 -> stack should be 3.141592653589793
