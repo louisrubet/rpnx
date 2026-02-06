@@ -1,0 +1,9 @@
+# Rust build output
+/target/
+
+# Editor/IDE
+.vscode/
+*~
+
+# Local settings
+.claude
