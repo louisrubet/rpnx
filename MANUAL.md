@@ -1,9 +1,9 @@
 # **rpnx v1.0.0** - Reference Manual
 
 - structured full-featured **math-oriented language** inspired by Hewlett-Packard **R**everse **P**olish **L**isp, including **real**, **bitwise**, **complex**, **stack**, **store**, **branch**, **program**, **test**, **trig** and **logs** commands,
-- implemented as a **command-line calculator** with interactive REPL,
+- implemented in rust as a **command-line calculator** with interactive REPL,
 - bringing powerfull calculation facilities on floating point numbers with __arbitrary precision__ provided by [rust crate](https://crates.io/crates/rug),
-- uses that so cool **reverse polish notation** :smiling_face:.
+- uses the **reverse polish notation**.
 
 ## Doc overview
 

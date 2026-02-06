@@ -116,4 +116,4 @@ rpnx> (1,0) (0,1) *
 
 ## License
 
-LGPL-3.0 — See LICENSE file.
+LGPL-3.0 — See [LICENSE](LICENSE) file.
