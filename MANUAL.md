@@ -112,7 +112,18 @@ rpnx> 7b1252 dec
 1> 478
 ```
 
-- **Decimal reals** can be represented
+- **Decimal reals** can be represented in 3 ways:
+  - **std**: Standard display shows up to n significant digits without trailing zeros.
+    - Syntax: `<n> std`
+    - Example: `38 std 1000 3 /` → `333.33333333333333333333333333333333333`
+  - **fix**: Fixed-point display shows exactly n digits after the decimal point.
+    - Syntax: `<n> fix`
+    - Example: `4 fix 1000 3 /` → `333.3333`
+  - **sci**: Scientific notation displays n significant digits with exponent.
+    - Syntax: `<n> sci`
+    - Example: `6 sci 1000 3 /` → `3.333333e+02`
+
+The whole stack is represented with the chosen mode.
 
 ### Sticky operators
 
