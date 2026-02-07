@@ -239,3 +239,155 @@
 -> stack should be « 1 », « 2 », 3
 
 `del`
+
+## symbol == symbol (equal)
+
+`'hello' 'hello' ==`
+
+-> stack should be 1
+
+`del`
+
+## symbol == symbol (not equal)
+
+`'hello' 'world' ==`
+
+-> stack should be 0
+
+`del`
+
+## symbol == symbol (empty symbols equal)
+
+`'' '' ==`
+
+-> stack should be 1
+
+`del`
+
+## symbol == symbol (case sensitive)
+
+`'Hello' 'hello' ==`
+
+-> stack should be 0
+
+`del`
+
+## symbol same symbol (equal)
+
+`'test' 'test' same`
+
+-> stack should be 1
+
+`del`
+
+## symbol same symbol (not equal)
+
+`'foo' 'bar' same`
+
+-> stack should be 0
+
+`del`
+
+## symbol != symbol (equal)
+
+`'hello' 'hello' !=`
+
+-> stack should be 0
+
+`del`
+
+## symbol != symbol (not equal)
+
+`'hello' 'world' !=`
+
+-> stack should be 1
+
+`del`
+
+## symbol != symbol (empty vs non-empty)
+
+`'' 'x' !=`
+
+-> stack should be 1
+
+`del`
+
+## error: symbol == number
+
+`'hello' 42 ==`
+
+`error`
+
+-> stack should be 'hello', 42, 3
+
+`del`
+
+## error: number == symbol
+
+`42 'hello' ==`
+
+`error`
+
+-> stack should be 42, 'hello', 3
+
+`del`
+
+## error: symbol == complex
+
+`'hello' (1,2) ==`
+
+`error`
+
+-> stack should be 'hello', (1,2), 3
+
+`del`
+
+## error: symbol == program
+
+`'hello' << 1 >> ==`
+
+`error`
+
+-> stack should be 'hello', « 1 », 3
+
+`del`
+
+## error: symbol != number
+
+`'hello' 42 !=`
+
+`error`
+
+-> stack should be 'hello', 42, 3
+
+`del`
+
+## error: number != symbol
+
+`42 'hello' !=`
+
+`error`
+
+-> stack should be 42, 'hello', 3
+
+`del`
+
+## error: symbol != complex
+
+`'hello' (1,2) !=`
+
+`error`
+
+-> stack should be 'hello', (1,2), 3
+
+`del`
+
+## error: symbol != program
+
+`'hello' << 1 >> !=`
+
+`error`
+
+-> stack should be 'hello', « 1 », 3
+
+`del`

@@ -78,6 +78,19 @@ pub fn equal(ctx: &mut Context) -> Result<()> {
             push_number!(ctx, Float::with_val(ctx.config.precision_bits, result));
             Ok(())
         }
+        (Some(Object::Symbol { .. }), Some(Object::Symbol { .. })) => {
+            let b = match ctx.stack.pop().unwrap() {
+                Object::Symbol { name, .. } => name,
+                _ => unreachable!(),
+            };
+            let a = match ctx.stack.pop().unwrap() {
+                Object::Symbol { name, .. } => name,
+                _ => unreachable!(),
+            };
+            let result = if a == b { 1 } else { 0 };
+            push_number!(ctx, Float::with_val(ctx.config.precision_bits, result));
+            Ok(())
+        }
         _ => Err(Error::BadOperandType),
     }
 }
@@ -100,6 +113,19 @@ pub fn not_equal(ctx: &mut Context) -> Result<()> {
             };
             let a = match ctx.stack.pop().unwrap() {
                 Object::Complex { value, .. } => value,
+                _ => unreachable!(),
+            };
+            let result = if a != b { 1 } else { 0 };
+            push_number!(ctx, Float::with_val(ctx.config.precision_bits, result));
+            Ok(())
+        }
+        (Some(Object::Symbol { .. }), Some(Object::Symbol { .. })) => {
+            let b = match ctx.stack.pop().unwrap() {
+                Object::Symbol { name, .. } => name,
+                _ => unreachable!(),
+            };
+            let a = match ctx.stack.pop().unwrap() {
+                Object::Symbol { name, .. } => name,
                 _ => unreachable!(),
             };
             let result = if a != b { 1 } else { 0 };
