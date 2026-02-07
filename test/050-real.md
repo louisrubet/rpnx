@@ -748,4 +748,124 @@ nan
 
 -> stack should be (-1,-2)
 
+`del`
+
+## sticky operator + (1)
+
+`1 2+`
+
+-> stack should be 3
+
+`del`
+
+## sticky operator + (2)
+
+`1 2+ 3+`
+
+-> stack should be 6
+
+`del`
+
+## sticky operator -
+
+`10 3-`
+
+-> stack should be 7
+
+`del`
+
+## sticky operator *
+
+`4 5*`
+
+-> stack should be 20
+
+`del`
+
+## sticky operator /
+
+`20 4/`
+
+-> stack should be 5
+
+`del`
+
+## sticky operator %
+
+`200 25%`
+
+-> stack should be 50
+
+`del`
+
+## sticky operator & (1)
+
+`0b1111 0b1010&`
+
+-> stack should be 0b1010
+
+`del`
+
+## sticky operator & (2)
+
+`0xff 0x0f&`
+
+-> stack should be 0xf
+
+`del`
+
+## sticky operator |
+
+`0b1100 0b0011|`
+
+-> stack should be 0b1111
+
+`del`
+
+## sticky operator ^
+
+`0b1111 0b1010^`
+
+-> stack should be 0b101
+
+`del`
+
+## sticky operator ~ (1)
+
+`0b1010~`
+
+-> stack should be 0b101
+
+`del`
+
+## sticky operator ~ (2)
+
+`0b1111~`
+
+-> stack should be 0b0
+
+`del`
+
+## sticky chained operators
+
+`2 3 4+*`
+
+-> stack should be 14
+
+`del`
+
+## sticky with negative number
+
+`-5 3+`
+
+-> stack should be -2
+
+`del`
+
+## sticky with scientific notation
+
+`1e5 2*`
+
+-> stack should be 200000
+
 `del default`

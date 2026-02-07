@@ -81,24 +81,12 @@ rpnx>
 
 ### Object types
 
-The following objects are managed: **floating numbers**, **complexes**, **symbols**, **strings**, **programs**, plus language **keywords** (commands and flow controls).
+The following objects are managed: **floating numbers**, **complexes**, **symbols**, **programs**, plus language **keywords** (commands and flow controls).
 
 ```rpnx
-5> 12.3456
-4> (1,-2.33)
-3> 'symbol'
-2> "string"
-1> << -> n << 0 1 n for i i 2 * inv + next >> >>
-rpnx> 
-```
-
-The following objects are managed: **floating numbers**, **complexes**, **symbols**, **strings**, **programs**, plus language **keywords** (commands and flow controls).
-
-```rpnx
-5> 12.3456
-4> (1,-2.33)
-3> 'symbol'
-2> "string"
+4> 12.3456
+3> (1,-2.33)
+2> 'symbol'
 1> << -> n << 0 1 n for i i 2 * inv + next >> >>
 rpnx> 
 ```
@@ -122,6 +110,17 @@ rpnx> 5.6 0xaabb 0b1101 7b1252
 
 rpnx> 7b1252 dec
 1> 478
+```
+
+- **Decimal reals** can be represented
+
+### Sticky operators
+
+Arithmetic and bitwise operators `+ - * / % & ^ ~` can stick at the immediate right of a number for convenience.
+
+```rpnx
+rpnx> 1 2+
+3
 ```
 
 ### structured programming

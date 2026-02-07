@@ -170,8 +170,8 @@ impl Lexer {
                         }
                     }
                     // Not a standalone ->, parse as word (could be negative number or ->str etc.)
-                    let token = Self::parse_word(&mut chars, &mut position)?;
-                    tokens.push(token);
+                    let word_tokens = Self::parse_word(&mut chars, &mut position)?;
+                    tokens.extend(word_tokens);
                 }
 
                 // Complex or parenthetical: (...)
@@ -236,8 +236,8 @@ impl Lexer {
 
                 // Everything else: numbers, keywords, or unknown symbols
                 _ => {
-                    let token = Self::parse_word(&mut chars, &mut position)?;
-                    tokens.push(token);
+                    let word_tokens = Self::parse_word(&mut chars, &mut position)?;
+                    tokens.extend(word_tokens);
                 }
             }
         }
@@ -520,11 +520,15 @@ impl Lexer {
         })
     }
 
+    /// Operators that can stick to the right of numbers
+    const STICKY_OPERATORS: &'static [char] = &['+', '-', '*', '/', '%', '&', '|', '^', '~'];
+
     /// Parse a word (number, keyword, or unknown symbol)
+    /// Returns a vector of tokens since a word like "2+" needs to be split
     fn parse_word(
         chars: &mut std::iter::Peekable<std::str::Chars>,
         position: &mut usize,
-    ) -> Result<Token> {
+    ) -> Result<Vec<Token>> {
         let mut word = String::new();
 
         // Collect non-whitespace characters
@@ -550,15 +554,62 @@ impl Lexer {
 
         // Try to parse as number
         if let Ok(token) = Self::parse_number_token(&word) {
-            return Ok(token);
+            return Ok(vec![token]);
+        }
+
+        // Check if word ends with sticky operators that should be split off
+        // e.g., "2+" -> ["2", "+"], "0xff&" -> ["0xff", "&"]
+        if let Some(tokens) = Self::try_split_number_and_operators(&word) {
+            return Ok(tokens);
         }
 
         // Otherwise, it's a keyword or unknown symbol
         // We'll classify it later in the parser
-        Ok(Token::Symbol {
+        Ok(vec![Token::Symbol {
             name: word,
             quoted: false,
-        })
+        }])
+    }
+
+    /// Try to split a word into a number followed by operators
+    /// Returns None if the word doesn't match this pattern
+    fn try_split_number_and_operators(word: &str) -> Option<Vec<Token>> {
+        // Find where the trailing operators start
+        let mut split_pos = word.len();
+
+        // Scan from the end to find trailing operators
+        for (i, ch) in word.char_indices().rev() {
+            if Self::STICKY_OPERATORS.contains(&ch) {
+                split_pos = i;
+            } else {
+                break;
+            }
+        }
+
+        // If no trailing operators, or word is all operators, return None
+        if split_pos == word.len() || split_pos == 0 {
+            return None;
+        }
+
+        let number_part = &word[..split_pos];
+        let operators_part = &word[split_pos..];
+
+        // Try to parse the number part
+        if let Ok(num_token) = Self::parse_number_token(number_part) {
+            let mut tokens = vec![num_token];
+
+            // Add each operator as a separate token
+            for ch in operators_part.chars() {
+                tokens.push(Token::Symbol {
+                    name: ch.to_string(),
+                    quoted: false,
+                });
+            }
+
+            return Some(tokens);
+        }
+
+        None
     }
 
     /// Try to parse a word as a number with base support
