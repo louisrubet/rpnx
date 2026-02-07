@@ -7,7 +7,7 @@
 
 ## Doc overview
 
-This page gives some examples and exhaustively lists the currently implemented commands.
+This page exhaustively lists the currently implemented commands and gives some examples.
 
 A help command is provided by `rpnx`:
 
@@ -20,6 +20,30 @@ rpnx v1.0.0 - Reverse Polish Notation Calculator
 GENERAL
 help    this help message
 (...)
+```
+
+Command-specific help is available with the syntax `'command' help`:
+
+```rpnx
+rpnx> 'sto' help
+
+sto: Store a value in a variable
+syntax: value 'name' sto
+  value: any object to store
+  name: quoted symbol, variable name
+example: 42 'answer' sto
+```
+
+In interactive mode only, a shorter syntax is available: `help command` (or `h command` or `? command`):
+
+```rpnx
+rpnx> help +
+
++: Add two numbers or concatenate symbols
+syntax: a b +
+  a: number, complex, or symbol
+  b: number, complex, or symbol
+example: 1 2 +
 ```
 
 ## Quick examples
@@ -148,16 +172,16 @@ Autocompletion works like those in Linux shells, with keys \<tab\>, Ctrl-R \<sea
 
 ### general
 
-| keyword           | description                              |
-| ----------------- | ---------------------------------------- |
-| `help` `h` `?`    | this help message                        |
-| `quit` `q` `exit` | quit software                            |
-| `version`         | show rpnx version                        |
-| `uname`           | show rpnx complete identification string |
-| `history`         | see commands history                     |
-| `error`           | last encountered error                   |
-| `strerror`        | last encountered error string            |
-| `test`            | run a test file                          |
+| keyword           | description                                                      |
+| ----------------- | ---------------------------------------------------------------- |
+| `help` `h` `?`    | this help message, or `'command' help` for command-specific help |
+| `quit` `q` `exit` | quit software                                                    |
+| `version`         | show rpnx version                                                |
+| `uname`           | show rpnx complete identification string                         |
+| `history`         | see commands history                                             |
+| `error`           | last encountered error                                           |
+| `strerror`        | last encountered error string                                    |
+| `test`            | run a test file                                                  |
 
 ### usual operations - real and complex
 

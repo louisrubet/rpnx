@@ -67,6 +67,7 @@ pub mod macros;
 
 pub mod context;
 pub mod error;
+pub mod help;
 pub mod lexer;
 pub mod number;
 pub mod object;

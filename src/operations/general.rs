@@ -15,6 +15,19 @@ pub fn quit(_ctx: &mut Context) -> Result<()> {
 
 /// Help: help, h, ?
 pub fn help(ctx: &mut Context) -> Result<()> {
+    // Check if there's a symbol on the stack for command-specific help
+    if let Some(Object::Symbol { name, .. }) = ctx.stack.get(0) {
+        let cmd_name = name.clone();
+        if let Some(cmd_help) = crate::help::get_command_help(&cmd_name) {
+            ctx.stack.pop(); // Consume the symbol
+            crate::help::display_command_help(cmd_help);
+            return Ok(());
+        }
+        // If command not found, show error but don't consume the symbol
+        println!("\nNo help available for '{}'\n", cmd_name);
+        return Ok(());
+    }
+
     // Color codes
     const R: &str = "\x1b[0m"; // Reset
     const T: &str = "\x1b[1;37m"; // Title: bold white
@@ -29,7 +42,7 @@ pub fn help(ctx: &mut Context) -> Result<()> {
         VERSION
     );
     println!("License: LGPL-3.0-only");
-    println!("\nAvailable commands:\n");
+    println!("\nAvailable commands (use 'command' help for details):\n");
 
     // Arithmetic operations
     println!("{T}ARITHMETIC{R}");

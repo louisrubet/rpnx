@@ -414,7 +414,7 @@ pub fn run_repl() -> RustylineResult<()> {
         "\x1b[1mrpn\x1b[0m v{} - Reverse Polish Notation Calculator",
         env!("CARGO_PKG_VERSION")
     );
-    println!("Type 'help' for help, 'quit' to exit");
+    println!("Type 'help' or 'help <command>', 'quit' to exit");
     println!();
 
     // Track consecutive Ctrl+C for exit
@@ -436,6 +436,27 @@ pub fn run_repl() -> RustylineResult<()> {
 
                 // Add to history
                 let _ = rl.add_history_entry(&line);
+
+                // Special handling for "help command" syntax (REPL only)
+                let trimmed = line.trim();
+                if trimmed.starts_with("help ") || trimmed.starts_with("h ") || trimmed.starts_with("? ") {
+                    let cmd = if trimmed.starts_with("help ") {
+                        trimmed[5..].trim()
+                    } else if trimmed.starts_with("h ") {
+                        trimmed[2..].trim()
+                    } else {
+                        trimmed[2..].trim()
+                    };
+
+                    if !cmd.is_empty() {
+                        if let Some(cmd_help) = crate::help::get_command_help(cmd) {
+                            crate::help::display_command_help(cmd_help);
+                        } else {
+                            println!("\nNo help available for '{}'\n", cmd);
+                        }
+                        continue;
+                    }
+                }
 
                 // Execute
                 match program::execute(&line, &mut ctx) {
