@@ -48,6 +48,7 @@ lazy_static! {
         m.insert("fact", real::factorial as KeywordFn);
         m.insert("floor", real::floor as KeywordFn);
         m.insert("ceil", real::ceil as KeywordFn);
+        m.insert("round", real::round as KeywordFn);
         m.insert("ip", real::integer_part as KeywordFn);
         m.insert("fp", real::fractional_part as KeywordFn);
         m.insert("mant", real::mantissa as KeywordFn);

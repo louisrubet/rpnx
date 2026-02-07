@@ -335,33 +335,57 @@ mod tests {
     use rug::Float;
 
     #[test]
-    fn test_if_true() {
+    fn test_then_true() {
         let mut ctx = Context::new();
         let mut args = BranchArgs::default();
 
         // Push condition: 1 (true)
-        use rug::Float;
+        // In HP RPL-style, 'then' consumes the condition, not 'if'
         push_number!(ctx, Float::with_val(128, 1));
 
-        rpnx_if(&mut ctx, &mut args).unwrap();
+        // Set up branch targets
+        args.arg1 = 5;  // then branch (true path)
+        args.arg2 = 10; // else branch (false path)
+
+        let result = rpnx_then(&mut ctx, &mut args).unwrap();
 
         assert_eq!(args.condition, 1); // Condition should be true
         assert_eq!(ctx.stack.len(), 0); // Stack should be empty
+        assert_eq!(result, 5); // Should take the then path (arg1)
     }
 
     #[test]
-    fn test_if_false() {
+    fn test_then_false() {
         let mut ctx = Context::new();
         let mut args = BranchArgs::default();
 
         // Push condition: 0 (false)
-        use rug::Float;
         push_number!(ctx, Float::with_val(128, 0));
 
-        rpnx_if(&mut ctx, &mut args).unwrap();
+        // Set up branch targets
+        args.arg1 = 5;  // then branch (true path)
+        args.arg2 = 10; // else branch (false path)
+
+        let result = rpnx_then(&mut ctx, &mut args).unwrap();
 
         assert_eq!(args.condition, 0); // Condition should be false
         assert_eq!(ctx.stack.len(), 0);
+        assert_eq!(result, 10); // Should take the else path (arg2)
+    }
+
+    #[test]
+    fn test_if_does_nothing() {
+        let mut ctx = Context::new();
+        let mut args = BranchArgs::default();
+
+        // Push a value to the stack
+        push_number!(ctx, Float::with_val(128, 42));
+
+        let result = rpnx_if(&mut ctx, &mut args).unwrap();
+
+        // 'if' should not consume anything from the stack
+        assert_eq!(ctx.stack.len(), 1);
+        assert_eq!(result, STEP_OUT); // Should return STEP_OUT (do nothing)
     }
 
     #[test]

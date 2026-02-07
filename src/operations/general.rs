@@ -46,7 +46,7 @@ pub fn help(ctx: &mut Context) -> Result<()> {
     println!("  {O}%{R}                       Percent");
     println!("  {K}%inv{R}                    Inverse percent");
     println!("  {K}fact{R}                    Factorial");
-    println!("  {K}floor{R}, {K}ceil{R}             Rounding");
+    println!("  {K}floor{R}, {K}ceil{R}, {K}round{R}     Rounding");
     println!("  {K}ip{R}, {K}fp{R}                  Integer and fractional parts");
     println!("  {K}mant{R}, {K}xpon{R}              Mantissa and exponent");
 

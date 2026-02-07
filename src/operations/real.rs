@@ -938,35 +938,105 @@ pub fn factorial(ctx: &mut Context) -> Result<()> {
 }
 
 /// Floor: floor (round down)
+/// For complex numbers, applies floor to both real and imaginary parts
 pub fn floor(ctx: &mut Context) -> Result<()> {
     min_arguments!(ctx, 1);
-    arg_must_be!(ctx, 0, Number);
 
-    // Extract base before popping
-    let (value, base) = match ctx.stack.pop().unwrap() {
-        Object::Number { value, base } => (value, base),
-        _ => unreachable!(),
-    };
-
-    let result = value.floor();
-    push_number!(ctx, result, base);
-    Ok(())
+    let obj = ctx.stack.pop().unwrap();
+    match obj {
+        Object::Number { value, base } => {
+            let result = value.floor();
+            push_number!(ctx, result, base);
+            Ok(())
+        }
+        Object::Complex {
+            value,
+            re_base,
+            im_base,
+        } => {
+            let re = Float::with_val(ctx.config.precision_bits, value.real()).floor();
+            let im = Float::with_val(ctx.config.precision_bits, value.imag()).floor();
+            let result = Complex::with_val(ctx.config.precision_bits, (re, im));
+            ctx.stack.push(Object::Complex {
+                value: result,
+                re_base,
+                im_base,
+            });
+            Ok(())
+        }
+        _ => {
+            ctx.stack.push(obj);
+            Err(Error::BadOperandType)
+        }
+    }
 }
 
 /// Ceiling: ceil (round up)
+/// For complex numbers, applies ceil to both real and imaginary parts
 pub fn ceil(ctx: &mut Context) -> Result<()> {
     min_arguments!(ctx, 1);
-    arg_must_be!(ctx, 0, Number);
 
-    // Extract base before popping
-    let (value, base) = match ctx.stack.pop().unwrap() {
-        Object::Number { value, base } => (value, base),
-        _ => unreachable!(),
-    };
+    let obj = ctx.stack.pop().unwrap();
+    match obj {
+        Object::Number { value, base } => {
+            let result = value.ceil();
+            push_number!(ctx, result, base);
+            Ok(())
+        }
+        Object::Complex {
+            value,
+            re_base,
+            im_base,
+        } => {
+            let re = Float::with_val(ctx.config.precision_bits, value.real()).ceil();
+            let im = Float::with_val(ctx.config.precision_bits, value.imag()).ceil();
+            let result = Complex::with_val(ctx.config.precision_bits, (re, im));
+            ctx.stack.push(Object::Complex {
+                value: result,
+                re_base,
+                im_base,
+            });
+            Ok(())
+        }
+        _ => {
+            ctx.stack.push(obj);
+            Err(Error::BadOperandType)
+        }
+    }
+}
 
-    let result = value.ceil();
-    push_number!(ctx, result, base);
-    Ok(())
+/// Round: round (round to nearest integer)
+/// For complex numbers, applies round to both real and imaginary parts
+pub fn round(ctx: &mut Context) -> Result<()> {
+    min_arguments!(ctx, 1);
+
+    let obj = ctx.stack.pop().unwrap();
+    match obj {
+        Object::Number { value, base } => {
+            let result = value.round();
+            push_number!(ctx, result, base);
+            Ok(())
+        }
+        Object::Complex {
+            value,
+            re_base,
+            im_base,
+        } => {
+            let re = Float::with_val(ctx.config.precision_bits, value.real()).round();
+            let im = Float::with_val(ctx.config.precision_bits, value.imag()).round();
+            let result = Complex::with_val(ctx.config.precision_bits, (re, im));
+            ctx.stack.push(Object::Complex {
+                value: result,
+                re_base,
+                im_base,
+            });
+            Ok(())
+        }
+        _ => {
+            ctx.stack.push(obj);
+            Err(Error::BadOperandType)
+        }
+    }
 }
 
 /// Integer part: ip

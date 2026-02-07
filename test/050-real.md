@@ -596,4 +596,156 @@ nan
 
 -> stack should be -1
 
+`del`
+
+## round (1) - positive rounds down
+
+`2.4 round`
+
+-> stack should be 2
+
+`del`
+
+## round (2) - positive rounds up
+
+`2.6 round`
+
+-> stack should be 3
+
+`del`
+
+## round (3) - positive half rounds up
+
+`2.5 round`
+
+-> stack should be 3
+
+`del`
+
+## round (4) - negative rounds toward zero
+
+`-2.4 round`
+
+-> stack should be -2
+
+`del`
+
+## round (5) - negative rounds away from zero
+
+`-2.6 round`
+
+-> stack should be -3
+
+`del`
+
+## round (6) - negative half rounds away from zero
+
+`-2.5 round`
+
+-> stack should be -3
+
+`del`
+
+## round (7) - already integer
+
+`5 round`
+
+-> stack should be 5
+
+`del`
+
+## round (8) - negative already integer
+
+`-7 round`
+
+-> stack should be -7
+
+`del`
+
+## round (9) - zero
+
+`0 round`
+
+-> stack should be 0
+
+`del`
+
+## round (10) - nan
+
+`nan round`
+
+-> stack should be nan
+
+`del`
+
+## round (11) - inf
+
+`inf round`
+
+-> stack should be inf
+
+`del`
+
+## round (12) - negative inf
+
+`-inf round`
+
+-> stack should be -inf
+
+`del`
+
+## round (13) - complex
+
+`(1.6,2.4) round`
+
+-> stack should be (2,2)
+
+`del`
+
+## round (14) - complex with negative
+
+`(-1.6,-2.4) round`
+
+-> stack should be (-2,-2)
+
+`del`
+
+## round (15) - complex half
+
+`(1.5,-2.5) round`
+
+-> stack should be (2,-3)
+
+`del`
+
+## floor (3) - complex
+
+`(1.6,2.4) floor`
+
+-> stack should be (1,2)
+
+`del`
+
+## floor (4) - complex with negative
+
+`(-1.6,-2.4) floor`
+
+-> stack should be (-2,-3)
+
+`del`
+
+## ceil (3) - complex
+
+`(1.6,2.4) ceil`
+
+-> stack should be (2,3)
+
+`del`
+
+## ceil (4) - complex with negative
+
+`(-1.6,-2.4) ceil`
+
+-> stack should be (-1,-2)
+
 `del default`
