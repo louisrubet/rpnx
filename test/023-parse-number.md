@@ -6,7 +6,7 @@
 
 `1.0 type`
 
--> stack should be "number"
+-> stack should be 'number'
 
 `del`
 

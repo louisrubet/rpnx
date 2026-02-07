@@ -9,115 +9,49 @@ use rug::Float;
 /// Greater than: >
 pub fn greater(ctx: &mut Context) -> Result<()> {
     min_arguments!(ctx, 2);
+    arg_must_be!(ctx, 0, Number);
+    arg_must_be!(ctx, 1, Number);
 
-    match (ctx.stack.get(1), ctx.stack.get(0)) {
-        // Number > Number
-        (Some(Object::Number { .. }), Some(Object::Number { .. })) => {
-            let (a, b) = pop_two_numbers!(ctx);
-            let result = if a > b { 1 } else { 0 };
-            push_number!(ctx, Float::with_val(ctx.config.precision_bits, result));
-            Ok(())
-        }
-        // String > String
-        (Some(Object::String(_)), Some(Object::String(_))) => {
-            let b = match ctx.stack.pop().unwrap() {
-                Object::String(s) => s,
-                _ => unreachable!(),
-            };
-            let a = match ctx.stack.pop().unwrap() {
-                Object::String(s) => s,
-                _ => unreachable!(),
-            };
-            let result = if a > b { 1 } else { 0 };
-            push_number!(ctx, Float::with_val(ctx.config.precision_bits, result));
-            Ok(())
-        }
-        _ => Err(Error::BadOperandType),
-    }
+    let (a, b) = pop_two_numbers!(ctx);
+    let result = if a > b { 1 } else { 0 };
+    push_number!(ctx, Float::with_val(ctx.config.precision_bits, result));
+    Ok(())
 }
 
 /// Greater than or equal: >=
 pub fn greater_eq(ctx: &mut Context) -> Result<()> {
     min_arguments!(ctx, 2);
+    arg_must_be!(ctx, 0, Number);
+    arg_must_be!(ctx, 1, Number);
 
-    match (ctx.stack.get(1), ctx.stack.get(0)) {
-        (Some(Object::Number { .. }), Some(Object::Number { .. })) => {
-            let (a, b) = pop_two_numbers!(ctx);
-            let result = if a >= b { 1 } else { 0 };
-            push_number!(ctx, Float::with_val(ctx.config.precision_bits, result));
-            Ok(())
-        }
-        (Some(Object::String(_)), Some(Object::String(_))) => {
-            let b = match ctx.stack.pop().unwrap() {
-                Object::String(s) => s,
-                _ => unreachable!(),
-            };
-            let a = match ctx.stack.pop().unwrap() {
-                Object::String(s) => s,
-                _ => unreachable!(),
-            };
-            let result = if a >= b { 1 } else { 0 };
-            push_number!(ctx, Float::with_val(ctx.config.precision_bits, result));
-            Ok(())
-        }
-        _ => Err(Error::BadOperandType),
-    }
+    let (a, b) = pop_two_numbers!(ctx);
+    let result = if a >= b { 1 } else { 0 };
+    push_number!(ctx, Float::with_val(ctx.config.precision_bits, result));
+    Ok(())
 }
 
 /// Less than: <
 pub fn less(ctx: &mut Context) -> Result<()> {
     min_arguments!(ctx, 2);
+    arg_must_be!(ctx, 0, Number);
+    arg_must_be!(ctx, 1, Number);
 
-    match (ctx.stack.get(1), ctx.stack.get(0)) {
-        (Some(Object::Number { .. }), Some(Object::Number { .. })) => {
-            let (a, b) = pop_two_numbers!(ctx);
-            let result = if a < b { 1 } else { 0 };
-            push_number!(ctx, Float::with_val(ctx.config.precision_bits, result));
-            Ok(())
-        }
-        (Some(Object::String(_)), Some(Object::String(_))) => {
-            let b = match ctx.stack.pop().unwrap() {
-                Object::String(s) => s,
-                _ => unreachable!(),
-            };
-            let a = match ctx.stack.pop().unwrap() {
-                Object::String(s) => s,
-                _ => unreachable!(),
-            };
-            let result = if a < b { 1 } else { 0 };
-            push_number!(ctx, Float::with_val(ctx.config.precision_bits, result));
-            Ok(())
-        }
-        _ => Err(Error::BadOperandType),
-    }
+    let (a, b) = pop_two_numbers!(ctx);
+    let result = if a < b { 1 } else { 0 };
+    push_number!(ctx, Float::with_val(ctx.config.precision_bits, result));
+    Ok(())
 }
 
 /// Less than or equal: <=
 pub fn less_eq(ctx: &mut Context) -> Result<()> {
     min_arguments!(ctx, 2);
+    arg_must_be!(ctx, 0, Number);
+    arg_must_be!(ctx, 1, Number);
 
-    match (ctx.stack.get(1), ctx.stack.get(0)) {
-        (Some(Object::Number { .. }), Some(Object::Number { .. })) => {
-            let (a, b) = pop_two_numbers!(ctx);
-            let result = if a <= b { 1 } else { 0 };
-            push_number!(ctx, Float::with_val(ctx.config.precision_bits, result));
-            Ok(())
-        }
-        (Some(Object::String(_)), Some(Object::String(_))) => {
-            let b = match ctx.stack.pop().unwrap() {
-                Object::String(s) => s,
-                _ => unreachable!(),
-            };
-            let a = match ctx.stack.pop().unwrap() {
-                Object::String(s) => s,
-                _ => unreachable!(),
-            };
-            let result = if a <= b { 1 } else { 0 };
-            push_number!(ctx, Float::with_val(ctx.config.precision_bits, result));
-            Ok(())
-        }
-        _ => Err(Error::BadOperandType),
-    }
+    let (a, b) = pop_two_numbers!(ctx);
+    let result = if a <= b { 1 } else { 0 };
+    push_number!(ctx, Float::with_val(ctx.config.precision_bits, result));
+    Ok(())
 }
 
 /// Equal: ==
@@ -127,19 +61,6 @@ pub fn equal(ctx: &mut Context) -> Result<()> {
     match (ctx.stack.get(1), ctx.stack.get(0)) {
         (Some(Object::Number { .. }), Some(Object::Number { .. })) => {
             let (a, b) = pop_two_numbers!(ctx);
-            let result = if a == b { 1 } else { 0 };
-            push_number!(ctx, Float::with_val(ctx.config.precision_bits, result));
-            Ok(())
-        }
-        (Some(Object::String(_)), Some(Object::String(_))) => {
-            let b = match ctx.stack.pop().unwrap() {
-                Object::String(s) => s,
-                _ => unreachable!(),
-            };
-            let a = match ctx.stack.pop().unwrap() {
-                Object::String(s) => s,
-                _ => unreachable!(),
-            };
             let result = if a == b { 1 } else { 0 };
             push_number!(ctx, Float::with_val(ctx.config.precision_bits, result));
             Ok(())
@@ -168,19 +89,6 @@ pub fn not_equal(ctx: &mut Context) -> Result<()> {
     match (ctx.stack.get(1), ctx.stack.get(0)) {
         (Some(Object::Number { .. }), Some(Object::Number { .. })) => {
             let (a, b) = pop_two_numbers!(ctx);
-            let result = if a != b { 1 } else { 0 };
-            push_number!(ctx, Float::with_val(ctx.config.precision_bits, result));
-            Ok(())
-        }
-        (Some(Object::String(_)), Some(Object::String(_))) => {
-            let b = match ctx.stack.pop().unwrap() {
-                Object::String(s) => s,
-                _ => unreachable!(),
-            };
-            let a = match ctx.stack.pop().unwrap() {
-                Object::String(s) => s,
-                _ => unreachable!(),
-            };
             let result = if a != b { 1 } else { 0 };
             push_number!(ctx, Float::with_val(ctx.config.precision_bits, result));
             Ok(())

@@ -9,27 +9,27 @@ use crate::object::{BranchArgs, Object};
 pub const STEP_OUT: usize = usize::MAX; // Continue to next instruction
 pub const RT_ERROR: usize = usize::MAX - 1; // Runtime error
 
-/// IF: if (evaluate condition and store result)
+/// IF: if (mark start of conditional block)
+/// Stack: (unchanged)
+/// The condition is evaluated between IF and THEN
+pub fn rpnx_if(_ctx: &mut Context, _args: &mut BranchArgs) -> Result<usize> {
+    // IF just marks the start of the conditional block
+    // The condition will be evaluated by THEN
+    Ok(STEP_OUT)
+}
+
+/// THEN: then (evaluate condition and branch)
 /// Stack: condition -> (empty)
-/// Sets condition field to 1 (true) or 0 (false)
-pub fn rpnx_if(ctx: &mut Context, args: &mut BranchArgs) -> Result<usize> {
+/// arg1 = address of THEN+1 (true branch)
+/// arg2 = address of ELSE+1 or END (false branch)
+/// arg3 = address of IF
+pub fn rpnx_then(ctx: &mut Context, args: &mut BranchArgs) -> Result<usize> {
     min_arguments!(ctx, 1);
     arg_must_be!(ctx, 0, Number);
 
     let condition = pop_one_number!(ctx);
-
-    // Store condition result in condition field
     args.condition = if condition != 0.0 { 1 } else { 0 };
 
-    Ok(STEP_OUT)
-}
-
-/// THEN: then (branch based on IF condition)
-/// arg1 = address of THEN+1 (true branch)
-/// arg2 = address of ELSE+1 or END (false branch)
-/// arg3 = address of IF
-/// condition = IF's condition result (copied during execution)
-pub fn rpnx_then(_ctx: &mut Context, args: &mut BranchArgs) -> Result<usize> {
     if args.condition == 1 {
         Ok(args.arg1) // True: execute THEN block
     } else {

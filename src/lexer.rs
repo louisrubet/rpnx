@@ -50,9 +50,6 @@ pub enum Token {
         im_base: u8,
     },
 
-    /// String literal
-    String(String),
-
     /// Symbol (variable name)
     /// quoted: true if 'symbol' syntax, false if bare word
     Symbol { name: String, quoted: bool },
@@ -83,14 +80,6 @@ impl Lexer {
                 ' ' | '\t' | '\n' | '\r' => {
                     chars.next();
                     position += 1;
-                }
-
-                // String: "..."
-                '"' => {
-                    chars.next();
-                    position += 1;
-                    let token = Self::parse_string(&mut chars, &mut position)?;
-                    tokens.push(token);
                 }
 
                 // Symbol: '...'
@@ -254,45 +243,6 @@ impl Lexer {
         }
 
         Ok(tokens)
-    }
-
-    /// Parse a string literal "..."
-    fn parse_string(
-        chars: &mut std::iter::Peekable<std::str::Chars>,
-        position: &mut usize,
-    ) -> Result<Token> {
-        let mut value = String::new();
-
-        while let Some(ch) = chars.next() {
-            *position += 1;
-            match ch {
-                '"' => {
-                    // End of string
-                    return Ok(Token::String(value));
-                }
-                '\\' => {
-                    // Escape sequence
-                    if let Some(next) = chars.next() {
-                        *position += 1;
-                        match next {
-                            'n' => value.push('\n'),
-                            't' => value.push('\t'),
-                            'r' => value.push('\r'),
-                            '\\' => value.push('\\'),
-                            '"' => value.push('"'),
-                            _ => {
-                                value.push('\\');
-                                value.push(next);
-                            }
-                        }
-                    }
-                }
-                _ => value.push(ch),
-            }
-        }
-
-        // Unterminated string: return what we have so far
-        Ok(Token::String(value))
     }
 
     /// Parse a quoted symbol '...'

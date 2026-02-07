@@ -6,7 +6,7 @@
 
 `(1,2) type`
 
--> stack should be "complex"
+-> stack should be 'complex'
 
 `del`
 

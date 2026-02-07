@@ -177,8 +177,6 @@ impl Parser {
                 })
             }
 
-            Token::String(s) => Ok(Object::String(s)),
-
             Token::Symbol { name, quoted } => {
                 // If quoted, it's always a symbol
                 if quoted {

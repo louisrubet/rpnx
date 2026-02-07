@@ -31,10 +31,10 @@ macro_rules! arg_must_be {
             return Err($crate::error::Error::BadOperandType);
         }
     };
-    ($ctx:expr, $level:expr, String) => {
+    ($ctx:expr, $level:expr, Symbol) => {
         if !matches!(
             $ctx.stack.get($level),
-            Some($crate::object::Object::String(_))
+            Some($crate::object::Object::Symbol { .. })
         ) {
             return Err($crate::error::Error::BadOperandType);
         }

@@ -138,42 +138,42 @@
 ```
 100
 10
-«dup2 * -> a b c << a b + c / -> d << << -> sym << sym ->str " is " + sym rcl ->str + >> >> 'stringify' sto 'a' stringify 'b' stringify 'c' stringify 'd' stringify >> >>»
+<< dup2 * -> a b c << a b + c / -> d << << -> sym << sym ' is ' + sym rcl + >> >> 'stringify' sto 'a' stringify 'b' stringify 'c' stringify 'd' stringify >> >> >>
 eval
 ```
 
--> stack should be "'a' is 100", "'b' is 10", "'c' is 1000", "'d' is 0.11"
+-> stack should be 'a is 100', 'b is 10', 'c is 1000', 'd is 0.11'
 
 `del`
 
 ## local variables multiple entries
 
-`1 2 3 << -> a b c << "a is " a ->str + "b is " b ->str + "c is " c ->str + >> >> eval`
+`1 2 3 << -> a b c << 'a is ' a + 'b is ' b + 'c is ' c + >> >> eval`
 
--> stack should be "a is 1", "b is 2", "c is 3"
+-> stack should be 'a is 1', 'b is 2', 'c is 3'
 
 `del`
 
 ## local variables separation (1)
 
-`123 'n' sto 1 << -> n << "n is " n ->str + >> >> eval`
+`123 'n' sto 1 << -> n << 'n is ' n + >> >> eval`
 
--> stack should be "n is 1"
+-> stack should be 'n is 1'
 
 `del`
 
 ## local variables separation (2)
 
-`123 'n' sto 2 << -> n << n sq << -> n << "n is " n ->str + >> >> >> eval >> eval`
+`123 'n' sto 2 << -> n << n sq << -> n << 'n is ' n + >> >> >> eval >> eval`
 
--> stack should be "n is 4"
+-> stack should be 'n is 4'
 
 `del`
 
 ## local variables separation (3)
 
-`123 'n' sto 2 << -> n << n sq << -> n << "n is " n ->str + >> >> >> eval >> eval n`
+`123 'n' sto 2 << -> n << n sq << -> n << 'n is ' n + >> >> >> eval >> eval n`
 
--> stack should be "n is 4", 123
+-> stack should be 'n is 4', 123
 
 `del`

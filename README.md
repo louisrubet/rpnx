@@ -54,9 +54,9 @@ rpnx> 0b110111 0b101011 &
 From command line
 
 ```bash
-rpnx "2 10 pow"          # 1024
-rpnx "0xFF 1 +"          # 0x100
-rpnx "(1,2) (3,4) +"     # (4,6)
+rpnx> "2 10 pow"
+rpnx> "0xFF 1 +"
+rpnx> "(1,2) (3,4) +"
 ```
 
 ## Operations
@@ -71,7 +71,6 @@ rpnx "(1,2) (3,4) +"     # (4,6)
 | Hyperbolic | `sinh` `cosh` `tanh` `asinh` `acosh` `atanh`                                                                                                          |
 | Logs       | `ln` `log` `lnp1` `exp` `expm` `log10` `alog10` `exp10` `log2` `alog2` `exp2` `logn` `alogn` `e`                                                      |
 | Complex    | `re` `im` `arg` `conj` `c->r` `r->c` `p->r` `r->p`                                                                                                    |
-| String     | `->str` `str->` `chr` `num` `size` `pos` `sub` `endl`                                                                                                 |
 | Variables  | `sto` `rcl` `purge` `sto+` `sto-` `sto*` `sto/` `sneg` `stoneg` `sinv` `stoinv` `vars` `clusr`                                                        |
 | Control    | `if` `then` `else` `end` `ift` `ifte` `for` `next` `step` `while` `repeat` `do` `until` `start`                                                       |
 | Display    | `std` `fix` `sci` `prec` `hex` `dec` `bin` `base`                                                                                                     |
@@ -79,39 +78,52 @@ rpnx "(1,2) (3,4) +"     # (4,6)
 
 ## Examples
 
-### Variables & Programs
-
-```
-rpnx> 42 'answer' sto
-rpnx> answer 1 +
-1> 43
-
-rpnx> << dup * >> 'sq' sto
-rpnx> 7 sq
-1> 49
-```
-
 ### Number Bases
 
-```
+```rpnx
 rpnx> 0b1010 0b0110 +
-1> 0b10000
+0b10000
 
 rpnx> 16bff dec
-1> 255
+255
 
 rpnx> 1000 36 base
-1> 36brs
+36brs
 ```
 
 ### Complex Numbers
 
-```
+```rpnx
 rpnx> (3,4) abs
-1> 5
+5
 
 rpnx> (1,0) (0,1) *
-1> (0,1)
+(0,1)
+```
+
+### Variables & Programs
+
+Sum of squares
+```rpnx
+rpnx> 0 1 10 for i i sq + next
+385
+```
+
+Tests and variables
+```rpnx
+rpnx> 42 'answer' sto
+rpnx> << if 42 == then 'truth' else 'lie' end >> 'check_the_truth' sto
+rpnx> answer check_the_truth
+'truth'
+rpnx> 2 'answer' sto+
+rpnx> answer check_the_truth
+'lie'
+```
+
+```rpnx
+rpnx> << dup * >> 'sq' sto
+rpnx> 7 sq
+49
 ```
 
 ### More examples

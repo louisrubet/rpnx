@@ -17,9 +17,8 @@ use std::path::PathBuf;
 // ANSI color codes
 const COLOR_RESET: &str = "\x1b[0m";
 const COLOR_NUMBER: &str = "\x1b[36m"; // Cyan for numbers
-const COLOR_STRING: &str = "\x1b[32m"; // Green for strings
 const COLOR_KEYWORD: &str = "\x1b[33m"; // Yellow for keywords
-const COLOR_SYMBOL: &str = "\x1b[35m"; // Magenta for symbols
+const COLOR_SYMBOL: &str = "\x1b[32m"; // Green for symbols
 const COLOR_PROGRAM: &str = "\x1b[34m"; // Blue for programs
 const COLOR_OPERATOR: &str = "\x1b[1m"; // Bold default for operators
 
@@ -111,11 +110,6 @@ impl Helper for RpnCompleter {}
 
 /// Classify a token and return its color
 fn get_token_color(token: &str) -> &'static str {
-    // Check for string (starts with ")
-    if token.starts_with('"') {
-        return COLOR_STRING;
-    }
-
     // Check for quoted symbol (starts with ')
     if token.starts_with('\'') {
         return COLOR_SYMBOL;
@@ -226,42 +220,10 @@ fn is_number(token: &str) -> bool {
 fn highlight_line(line: &str) -> String {
     let mut result = String::with_capacity(line.len() * 2);
     let mut chars = line.chars().peekable();
-    let mut in_string = false;
     let mut in_program = 0; // Nesting level for programs
     let mut current_token = String::new();
 
     while let Some(c) = chars.next() {
-        // Handle string literals
-        if c == '"' {
-            if in_string {
-                // End of string
-                current_token.push(c);
-                result.push_str(COLOR_STRING);
-                result.push_str(&current_token);
-                result.push_str(COLOR_RESET);
-                current_token.clear();
-                in_string = false;
-                continue;
-            } else {
-                // Start of string - flush current token first
-                if !current_token.is_empty() {
-                    let color = get_token_color(&current_token);
-                    result.push_str(color);
-                    result.push_str(&current_token);
-                    result.push_str(COLOR_RESET);
-                    current_token.clear();
-                }
-                in_string = true;
-                current_token.push(c);
-                continue;
-            }
-        }
-
-        if in_string {
-            current_token.push(c);
-            continue;
-        }
-
         // Handle program delimiters
         if c == '<' && chars.peek() == Some(&'<') {
             // Flush current token
@@ -411,11 +373,7 @@ fn highlight_line(line: &str) -> String {
 
     // Flush any remaining token
     if !current_token.is_empty() {
-        let color = if in_string {
-            COLOR_STRING
-        } else {
-            get_token_color(&current_token)
-        };
+        let color = get_token_color(&current_token);
         result.push_str(color);
         result.push_str(&current_token);
         result.push_str(COLOR_RESET);

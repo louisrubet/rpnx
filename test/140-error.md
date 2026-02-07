@@ -8,7 +8,7 @@
 
 `error strerror`
 
--> stack should be 0, "ok"
+-> stack should be 0, 'ok'
 
 `del`
 
@@ -18,17 +18,17 @@
 
 `error strerror`
 
--> stack should be 2, "missing operand"
+-> stack should be 2, 'missing operand'
 
 `del`
 
 ## error - bad operand type (3)
 
-`"hello" sin`
+`'hello' sin`
 
 `error strerror`
 
--> stack should be "hello", 3, "bad operand type"
+-> stack should be 'hello', 3, 'bad operand type'
 
 `del`
 
@@ -38,7 +38,7 @@
 
 `error strerror`
 
--> stack should be 'unknown_var_xyz', 5, "unknown variable"
+-> stack should be 'unknown_var_xyz', 5, 'unknown variable'
 
 `del`
 
@@ -56,7 +56,7 @@
 
 `strerror`
 
--> stack should be 2, 2, "missing operand"
+-> stack should be 2, 2, 'missing operand'
 
 `del`
 
@@ -74,6 +74,6 @@
 
 `error strerror`
 
--> stack should be 3, 0, "ok"
+-> stack should be 3, 0, 'ok'
 
 `del`

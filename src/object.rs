@@ -66,9 +66,6 @@ pub enum Object {
         im_base: u8,
     },
 
-    /// String value
-    String(String),
-
     /// Symbol (variable name or auto-eval reference)
     Symbol { name: String, auto_eval: bool },
 
@@ -98,7 +95,6 @@ impl Object {
         match self {
             Object::Number { .. } => "number",
             Object::Complex { .. } => "complex",
-            Object::String(_) => "string",
             Object::Symbol { .. } => "symbol",
             Object::Program(_) => "program",
             Object::Keyword { .. } => "keyword",
@@ -121,7 +117,6 @@ impl Object {
                 let im_str = format_number(value.imag(), *im_base, config.mode, config.digits);
                 format!("({},{})", re_str, im_str)
             }
-            Object::String(s) => format!("\"{}\"", s),
             Object::Symbol { name, auto_eval } => {
                 if *auto_eval {
                     name.clone()

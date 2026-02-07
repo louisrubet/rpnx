@@ -6,7 +6,7 @@
 
 `'hey' type`
 
--> stack should be "symbol"
+-> stack should be 'symbol'
 
 `del`
 

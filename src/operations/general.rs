@@ -21,7 +21,6 @@ pub fn help(ctx: &mut Context) -> Result<()> {
     const K: &str = "\x1b[33m"; // Keyword: yellow
     const O: &str = "\x1b[1m"; // Operator: bold
     const N: &str = "\x1b[36m"; // Number: cyan
-    const S: &str = "\x1b[32m"; // String: green
     const Y: &str = "\x1b[35m"; // Symbol: magenta
     const P: &str = "\x1b[34m"; // Program: blue
 
@@ -117,18 +116,6 @@ pub fn help(ctx: &mut Context) -> Result<()> {
     println!("  {K}vars{R}                    List all variables");
     println!("  {K}clusr{R}                   Clear all variables");
 
-    // Strings
-    println!("\n{T}STRINGS{R}");
-    println!("  {S}\"text\"{R}                  String notation");
-    println!("  {K}->str{R}                   Convert to a string");
-    println!("  {K}str->{R}                   Convert from a string");
-    println!("  {K}chr{R}                     ASCII code to character");
-    println!("  {K}num{R}                     Character to ASCII code");
-    println!("  {K}size{R}                    String length");
-    println!("  {K}pos{R}                     Find substring index");
-    println!("  {K}sub{R}                     Extract substring");
-    println!("  {K}endl{R}                     End-of-line string");
-
     // Control flow
     println!("\n{T}CONTROL FLOW{R}");
     println!("  {K}if{R}, {K}then{R}, {K}else{R}, {K}end{R}     Conditional execution");
@@ -179,14 +166,20 @@ pub fn help(ctx: &mut Context) -> Result<()> {
 
 /// Version: version
 pub fn version(ctx: &mut Context) -> Result<()> {
-    ctx.stack.push(Object::String(VERSION.to_string()));
+    ctx.stack.push(Object::Symbol {
+        name: VERSION.to_string(),
+        auto_eval: false,
+    });
     Ok(())
 }
 
 /// Uname: uname
 pub fn uname(ctx: &mut Context) -> Result<()> {
     let info = format!("rpnx {} (Rust)", VERSION);
-    ctx.stack.push(Object::String(info));
+    ctx.stack.push(Object::Symbol {
+        name: info,
+        auto_eval: false,
+    });
     Ok(())
 }
 
@@ -196,7 +189,10 @@ pub fn type_of(ctx: &mut Context) -> Result<()> {
 
     let type_name = ctx.stack.get(0).unwrap().type_name();
     ctx.stack.pop();
-    ctx.stack.push(Object::String(type_name.to_string()));
+    ctx.stack.push(Object::Symbol {
+        name: type_name.to_string(),
+        auto_eval: false,
+    });
     Ok(())
 }
 
@@ -400,9 +396,8 @@ pub fn base(ctx: &mut Context) -> Result<()> {
 pub fn test(ctx: &mut Context) -> Result<()> {
     min_arguments!(ctx, 1);
 
-    // Get filename from stack (string or symbol)
+    // Get filename from stack (symbol)
     let filename = match ctx.stack.pop() {
-        Some(Object::String(s)) => s,
         Some(Object::Symbol { name, .. }) => name,
         _ => return Err(Error::BadOperandType),
     };
@@ -484,26 +479,32 @@ pub fn test(ctx: &mut Context) -> Result<()> {
     }
 }
 
-/// Date: date (push current date as string in ISO format)
-/// Stack: -> "YYYY-MM-DD"
+/// Date: date (push current date as symbol in ISO format)
+/// Stack: -> 'YYYY-MM-DD'
 pub fn date(ctx: &mut Context) -> Result<()> {
     use chrono::Local;
 
     let now = Local::now();
     let date_str = now.format("%Y-%m-%d").to_string();
-    ctx.stack.push(Object::String(date_str));
+    ctx.stack.push(Object::Symbol {
+        name: date_str,
+        auto_eval: false,
+    });
 
     Ok(())
 }
 
-/// Time: time (push current time as string in HH:MM:SS format)
-/// Stack: -> "HH:MM:SS"
+/// Time: time (push current time as symbol in HH:MM:SS format)
+/// Stack: -> 'HH:MM:SS'
 pub fn time(ctx: &mut Context) -> Result<()> {
     use chrono::Local;
 
     let now = Local::now();
     let time_str = now.format("%H:%M:%S").to_string();
-    ctx.stack.push(Object::String(time_str));
+    ctx.stack.push(Object::Symbol {
+        name: time_str,
+        auto_eval: false,
+    });
 
     Ok(())
 }
@@ -547,15 +548,18 @@ pub fn error(ctx: &mut Context) -> Result<()> {
     Ok(())
 }
 
-/// Strerror: strerror (push last error as string)
-/// Stack: -> "error message"
+/// Strerror: strerror (push last error as symbol)
+/// Stack: -> 'error message'
 pub fn strerror(ctx: &mut Context) -> Result<()> {
     let msg = match &ctx.last_error {
         Some(e) => Error::name_from_code(e.error_code()),
         None => "ok",
     };
 
-    ctx.stack.push(Object::String(msg.to_string()));
+    ctx.stack.push(Object::Symbol {
+        name: msg.to_string(),
+        auto_eval: false,
+    });
 
     // Preserve last_error so it can be queried again
     ctx.preserve_last_error = true;

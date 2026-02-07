@@ -49,11 +49,11 @@ pub fn run_objects(objects: &[Object], ctx: &mut Context) -> Result<()> {
             } => {
                 let mut args_mut = args;
 
-                // Special handling for THEN and ELSE: copy IF's condition
-                if name == "then" || name == "else" {
+                // Special handling for ELSE: copy condition from IF (which was set by THEN)
+                if name == "else" {
                     let if_index = args.arg3;
                     if let Some(Object::Branch { args: if_args, .. }) = objects.get(if_index) {
-                        args_mut.condition = if_args.condition; // Copy condition from IF
+                        args_mut.condition = if_args.condition;
                     }
                 }
 
@@ -67,6 +67,14 @@ pub fn run_objects(objects: &[Object], ctx: &mut Context) -> Result<()> {
                 }
 
                 let next_ip = handler(ctx, &mut args_mut)?;
+
+                // Special handling for THEN: store condition back to IF so ELSE can read it
+                if name == "then" {
+                    let if_index = args.arg3;
+                    if let Some(Object::Branch { args: if_args, .. }) = objects.get_mut(if_index) {
+                        if_args.condition = args_mut.condition;
+                    }
+                }
 
                 // Special handling for FOR: initialize loop variable
                 if name == "for" && args_mut.arg1 != STEP_OUT {

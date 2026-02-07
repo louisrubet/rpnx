@@ -11,7 +11,7 @@
 
 ## if then else end (2)
 
-`1 if 'before' then 'ok' end`
+`if 'before' 1 then 'ok' end`
 
 -> stack should be 'before', 'ok'
 
@@ -54,6 +54,38 @@
 `0 if then 'ok' else 'KO' end`
 
 -> stack should be 'KO'
+
+`del`
+
+## if then else end (8) - condition between if and then (true)
+
+`42 if 42 == then 'truth' else 'wrong' end`
+
+-> stack should be 'truth'
+
+`del`
+
+## if then else end (9) - condition between if and then (false)
+
+`42 if 43 == then 'truth' else 'wrong' end`
+
+-> stack should be 'wrong'
+
+`del`
+
+## if then else end (10) - complex condition between if and then
+
+`10 if dup 5 > then 'big' else 'small' end`
+
+-> stack should be 10, 'big'
+
+`del`
+
+## if then else end (11) - condition with computation
+
+`3 4 if + 7 == then 'seven' else 'other' end`
+
+-> stack should be 'seven'
 
 `del`
 
@@ -124,7 +156,7 @@
 
 ## if then else end - error case (9)
 
-`"1" if then end`
+`'1' if then end`
 
 -> error should be 3
 
@@ -273,9 +305,9 @@
 
 ## start next - cloning objects (3)
 
-`1 2 start "ok" next`
+`1 2 start 'ok' next`
 
--> stack should be "ok", "ok"
+-> stack should be 'ok', 'ok'
 
 `del`
 
@@ -329,7 +361,7 @@
 
 ## start next - error case (5)
 
-`"1" 2 start next`
+`'1' 2 start next`
 
 -> error should be 3
 
@@ -337,7 +369,7 @@
 
 ## start next - error case (6)
 
-`1 "2" start next`
+`1 '2' start next`
 
 -> error should be 3
 
@@ -417,7 +449,7 @@
 
 ## for next - error case (3)
 
-`"1" 2 for i i next`
+`'1' 2 for i i next`
 
 -> error should be 3
 
@@ -425,7 +457,7 @@
 
 ## for next - error case (4)
 
-`1 "2" for i i next`
+`1 '2' for i i next`
 
 -> error should be 3
 
@@ -513,7 +545,7 @@
 
 ## for step - error case (1)
 
-`0 1 for i i "0.5" step`
+`0 1 for i i '0.5' step`
 
 -> error should be 3
 

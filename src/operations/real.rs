@@ -107,17 +107,72 @@ pub fn plus(ctx: &mut Context) -> Result<()> {
             });
             Ok(())
         }
-        // String + String (concatenation)
-        (Some(Object::String(_)), Some(Object::String(_))) => {
+        // Symbol + Symbol (concatenation)
+        (Some(Object::Symbol { .. }), Some(Object::Symbol { .. })) => {
             let b = match ctx.stack.pop().unwrap() {
-                Object::String(s) => s,
+                Object::Symbol { name, .. } => name,
                 _ => unreachable!(),
             };
             let a = match ctx.stack.pop().unwrap() {
-                Object::String(s) => s,
+                Object::Symbol { name, .. } => name,
                 _ => unreachable!(),
             };
-            ctx.stack.push(Object::String(a + &b));
+            ctx.stack.push(Object::Symbol {
+                name: a + &b,
+                auto_eval: false,
+            });
+            Ok(())
+        }
+        // Symbol + Number (concatenation)
+        (Some(Object::Symbol { .. }), Some(Object::Number { .. })) => {
+            let b = ctx.stack.pop().unwrap().display(&ctx.config);
+            let a = match ctx.stack.pop().unwrap() {
+                Object::Symbol { name, .. } => name,
+                _ => unreachable!(),
+            };
+            ctx.stack.push(Object::Symbol {
+                name: a + &b,
+                auto_eval: false,
+            });
+            Ok(())
+        }
+        // Number + Symbol (concatenation)
+        (Some(Object::Number { .. }), Some(Object::Symbol { .. })) => {
+            let b = match ctx.stack.pop().unwrap() {
+                Object::Symbol { name, .. } => name,
+                _ => unreachable!(),
+            };
+            let a = ctx.stack.pop().unwrap().display(&ctx.config);
+            ctx.stack.push(Object::Symbol {
+                name: a + &b,
+                auto_eval: false,
+            });
+            Ok(())
+        }
+        // Symbol + Complex (concatenation)
+        (Some(Object::Symbol { .. }), Some(Object::Complex { .. })) => {
+            let b = ctx.stack.pop().unwrap().display(&ctx.config);
+            let a = match ctx.stack.pop().unwrap() {
+                Object::Symbol { name, .. } => name,
+                _ => unreachable!(),
+            };
+            ctx.stack.push(Object::Symbol {
+                name: a + &b,
+                auto_eval: false,
+            });
+            Ok(())
+        }
+        // Complex + Symbol (concatenation)
+        (Some(Object::Complex { .. }), Some(Object::Symbol { .. })) => {
+            let b = match ctx.stack.pop().unwrap() {
+                Object::Symbol { name, .. } => name,
+                _ => unreachable!(),
+            };
+            let a = ctx.stack.pop().unwrap().display(&ctx.config);
+            ctx.stack.push(Object::Symbol {
+                name: a + &b,
+                auto_eval: false,
+            });
             Ok(())
         }
         _ => Err(Error::BadOperandType),

@@ -15,7 +15,6 @@ pub mod program_ops;
 pub mod real;
 pub mod stack_ops;
 pub mod store;
-pub mod string;
 pub mod test;
 pub mod trig;
 // pub mod time;
@@ -144,16 +143,6 @@ lazy_static! {
         m.insert("r->c", complex::r_to_c as KeywordFn);
         m.insert("p->r", complex::p_to_r as KeywordFn);
         m.insert("r->p", complex::r_to_p as KeywordFn);
-
-        // String operations (string.rs)
-        m.insert("->str", string::to_str as KeywordFn);
-        m.insert("str->", string::str_to as KeywordFn);
-        m.insert("chr", string::chr as KeywordFn);
-        m.insert("num", string::num as KeywordFn);
-        m.insert("size", string::size as KeywordFn);
-        m.insert("pos", string::pos as KeywordFn);
-        m.insert("sub", string::sub as KeywordFn);
-        m.insert("endl", string::endl as KeywordFn);
 
         // Trigonometric operations (trig.rs)
         m.insert("sin", trig::sin as KeywordFn);

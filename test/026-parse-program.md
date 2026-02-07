@@ -6,7 +6,7 @@
 
 `<< I >> type`
 
--> stack should be "program"
+-> stack should be 'program'
 
 `del`
 

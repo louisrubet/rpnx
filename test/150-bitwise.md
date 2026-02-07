@@ -184,19 +184,19 @@
 
 ## bad operand type
 
-`"hello" 5 &`
+`'hello' 5 &`
 
 -> error should be 3
 
 `del`
 
-`5 "world" |`
+`5 'world' |`
 
 -> error should be 3
 
 `del`
 
-`"test" ~`
+`'test' ~`
 
 -> error should be 3
 
