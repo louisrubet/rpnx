@@ -411,7 +411,7 @@ pub fn run_repl() -> RustylineResult<()> {
 
     // Show welcome message
     println!(
-        "\x1b[1mrpn\x1b[0m v{} - Reverse Polish Notation Calculator",
+        "\x1b[1mrpnx\x1b[0m v{} - Reverse Polish Notation Calculator",
         env!("CARGO_PKG_VERSION")
     );
     println!("Type 'help' or 'help <command>', 'quit' to exit");
