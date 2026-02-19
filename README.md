@@ -1,6 +1,6 @@
-# rpnx [![License: LGPLv3](https://www.gnu.org/graphics/lgplv3-88x31.png)](https://www.gnu.org/licenses/lgpl-3.0.en.html)
+ rpnx [![License: LGPLv3](https://www.gnu.org/graphics/lgplv3-88x31.png)](https://www.gnu.org/licenses/lgpl-3.0.en.html)
 
-A CLI RPN rust calculator with arbitrary‑precision arithmetic.
+A CLI RPN rust calculator language with arbitrary‑precision arithmetic.
 
 ## Install from source
 
@@ -16,11 +16,11 @@ cargo install --path .
 - **Arbitrary precision**
 - **Full arithmetic and scientific functions**
 - **Bitwise operations**
-- **Number bases** 2-62 (bin, hex, etc.)
+- **Number bases** dec, bin, hex, bases 3 to 62
 - **Complex numbers** with full arithmetic
-- **Programs** as first-class objects
-- **Control flow**: if/then/else, for/next, while/repeat, do/until
-- **Variables** with three-level scoping
+- **Programs** with parameters
+- **Control flow** if/then/else, for/next, while/repeat, do/until
+- **Variables** storing 
 
 Complete manual in [MANUAL.md](MANUAL.md)
 
@@ -61,20 +61,20 @@ rpnx> "(1,2) (3,4) +"
 
 ## Operations
 
-| Category   | Commands                                                                                                                                              |
-| ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Arithmetic | `+` `-` `*` `/` `^` `pow` `neg` `chs` `inv` `sqrt` `sq` `abs` `mod` `%` `%inv` `%CH` `fact` `mant` `xpon` `floor` `ceil` `ip` `fp` `min` `max` `sign` |
-| Bitwise    | `&` `\|` `^` `~`                                                                                                                                      |
-| Stack      | `swap` `dup` `drop` `pop` `rot` `roll` `rolld` `pick` `depth` `over` `dup2` `dupn` `drop2` `dropn` `erase` `del` `clear` `edit`                       |
-| Compare    | `>` `>=` `<` `<=` `==` `!=` `and` `or` `xor` `not` `same`                                                                                             |
-| Trig       | `sin` `cos` `tan` `asin` `acos` `atan` `atan2` `d->r` `r->d` `pi`                                                                                     |
-| Hyperbolic | `sinh` `cosh` `tanh` `asinh` `acosh` `atanh`                                                                                                          |
-| Logs       | `ln` `log` `lnp1` `exp` `expm` `log10` `alog10` `exp10` `log2` `alog2` `exp2` `logn` `alogn` `e`                                                      |
-| Complex    | `re` `im` `arg` `conj` `c->r` `r->c` `p->r` `r->p`                                                                                                    |
-| Variables  | `sto` `rcl` `purge` `sto+` `sto-` `sto*` `sto/` `sneg` `stoneg` `sinv` `stoinv` `vars` `clusr`                                                        |
-| Control    | `if` `then` `else` `end` `ift` `ifte` `for` `next` `step` `while` `repeat` `do` `until` `start`                                                       |
-| Display    | `std` `fix` `sci` `prec` `hex` `dec` `bin` `base`                                                                                                     |
-| Misc       | `eval` `test` `type` `default` `error` `strerror` `date` `time` `ticks` `history` `help` `h` `?` `quit` `q` `exit` `version` `uname`                  |
+| Category   | Commands                                                                                                                                          |
+| ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Arithmetic | `+` `-` `*` `/` `pow` `neg` `chs` `inv` `sqrt` `sq` `abs` `mod` `%` `%inv` `%CH` `fact` `mant` `xpon` `floor` `ceil` `ip` `fp` `min` `max` `sign` |
+| Bitwise    | `&` `\|` `^` `~`                                                                                                                                  |
+| Stack      | `swap` `dup` `drop` `pop` `rot` `roll` `rolld` `pick` `depth` `over` `dup2` `dupn` `drop2` `dropn` `erase` `del` `clear` `edit`                   |
+| Compare    | `>` `>=` `<` `<=` `==` `!=` `and` `or` `xor` `not` `same`                                                                                         |
+| Trig       | `sin` `cos` `tan` `asin` `acos` `atan` `atan2` `d->r` `r->d` `pi`                                                                                 |
+| Hyperbolic | `sinh` `cosh` `tanh` `asinh` `acosh` `atanh`                                                                                                      |
+| Logs       | `ln` `log` `lnp1` `exp` `expm` `log10` `alog10` `exp10` `log2` `alog2` `exp2` `logn` `alogn` `e`                                                  |
+| Complex    | `re` `im` `arg` `conj` `c->r` `r->c` `p->r` `r->p`                                                                                                |
+| Variables  | `sto` `rcl` `purge` `sto+` `sto-` `sto*` `sto/` `sneg` `stoneg` `sinv` `stoinv` `vars` `clusr`                                                    |
+| Control    | `if` `then` `else` `end` `ift` `ifte` `for` `next` `step` `while` `repeat` `do` `until` `start`                                                   |
+| Display    | `std` `fix` `sci` `prec` `hex` `dec` `bin` `base`                                                                                                 |
+| Misc       | `eval` `test` `type` `default` `error` `strerror` `date` `time` `ticks` `history` `help` `h` `?` `quit` `q` `exit` `version` `uname`              |
 
 ## Examples
 
@@ -135,6 +135,6 @@ rpnx> 7 sq
 LGPL-3.0 — See [LICENSE](LICENSE) file.
 
 ## Credits
-- [Rust Progrsaming Language](https://rust-lang.org/)
+- [Rust Programming Language](https://rust-lang.org/)
 - [rug crate](https://crates.io/crates/rug): arbitrary-precision integers, rational, floating-point and complex numbers based on [GMP](https://gmplib.org/), [MPFR](https://www.mpfr.org/) and [MPC](https://www.multiprecision.org/mpc/).
 - <a href="https://www.flaticon.com/free-icons/calculator" title="calculator icons">Calculator icons created by Freepik - Flaticon</a>
