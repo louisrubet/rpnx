@@ -168,7 +168,7 @@ impl Object {
                 }
             }
             Object::Keyword { name, .. } => name.to_string(),
-            Object::Branch { name, .. } => format!("<branch:{}>", name),
+            Object::Branch { name, .. } => name.to_string(),
         }
     }
 }
