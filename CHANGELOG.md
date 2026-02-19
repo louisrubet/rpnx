@@ -9,7 +9,6 @@ All notable changes to this project are documented in this file.
 ## [1.0.0] - 2026-01-31
 
 - `rpnx` is a porting of [rpn v2.5.0] to rust.
-- The rust port was done by Claude Code (Anthropic) in collaboration with the `rpn` developer.
 - This new name (project and executable) is chosen to avoid clashing with existing deb, rpm, flatpak, snap, or crate packages.
 - Version re-starts from 1.0.0.
 

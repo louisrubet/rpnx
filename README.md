@@ -133,3 +133,8 @@ rpnx> 7 sq
 ## License
 
 LGPL-3.0 — See [LICENSE](LICENSE) file.
+
+## Credits
+- [Rust Progrsaming Language](https://rust-lang.org/)
+- [rug crate](https://crates.io/crates/rug): arbitrary-precision integers, rational, floating-point and complex numbers based on [GMP](https://gmplib.org/), [MPFR](https://www.mpfr.org/) and [MPC](https://www.multiprecision.org/mpc/).
+- <a href="https://www.flaticon.com/free-icons/calculator" title="calculator icons">Calculator icons created by Freepik - Flaticon</a>
